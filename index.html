@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src='http://code.jquery.com/jquery-2.1.3.min.js'></script>
+
+</head>
+<body>
+
+<div id= "animalButtons"></div>
+
+ <form id="animal-form">
+    <label for="animal-input">Add an animal</label>
+    <input type="text" id="animal-input"><br>
+    
+    <input id="addAnimal" type="submit" value="submit">
+ </form>
+
+<div id= "animals"></div>
+
+
+ <script type="text/javascript">
+ 	console.log('hi');
+
+ 	var animalArray = ["cat"];
+
+ 	$('#addAnimal').click(addAnimal);
+
+	function addAnimal() {
+		console.log('push');
+		var newAnimal = $('#animal-input').val();
+		console.log(newAnimal);
+
+		animalArray.push(newAnimal);
+		renderButtons();
+
+		return false;
+	}
+
+	function renderButtons(){ 
+		$("#animalButtons").empty();		
+
+		for (var i = 0; i < animalArray.length; i++) {
+			$("#animalButtons").append(("<button>"+animalArray[i]+"</button>"));
+		}
+	}
+
+
+	renderButtons();
+ </script>
+
+
+</body>
+</html>
