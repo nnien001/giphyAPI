@@ -37,14 +37,87 @@
 	}
 
 	function renderButtons(){ 
-		$("#animalButtons").empty();		
 
-		for (var i = 0; i < animalArray.length; i++) {
-			$("#animalButtons").append(("<button>"+animalArray[i]+"</button>"));
+		// Deletes the movies prior to adding new movies (this is necessary otherwise you will have repeat buttons)
+		$('#animalButtons').empty();
+
+		// Loops through the array of movies
+		for (var i = 0; i < animalArray.length; i++){
+
+			// Note the jQUery syntax here... 
+		    var a = $('<button>') // This code $('<button>') is all jQuery needs to create the beginning and end tag. (<button></button>)
+		    a.addClass('animal'); // Added a class 
+		    a.attr('data-name', animalArray[i]); // Added a data-attribute
+		    a.text(animalArray[i]); // Provided the initial button text
+		    $('#animalButtons').append(a); // Added the button to the HTML
 		}
+
 	}
 
+	function getAPI(){
 
+		var animalCall = $(this).attr('data-name');
+		var limit = 10; //controls how many images get returned
+		var rating = ""; //rating limiter
+		var apiKey = 'dc6zaTOxFJmzC'; //public key. get your own.
+		console.log(animalCall);
+
+		var searchQueryURL = "http://api.giphy.com/v1/gifs/search?q="+animalCall+"&limit="+limit+"&api_key=" + apiKey;
+
+		// Creates AJAX call for the specific movie being 
+		$.ajax({url: searchQueryURL, method: 'GET'}).done(function(response) {
+
+			console.log(response);
+
+			var subjectDiv = $('<div>');
+
+			for (var i = 0; i < limit; i++) {
+				var rating = response.data[i].rating;
+				var imageURL = response.data[i].images.fixed_width.url;
+				var imageStillURL = response.data[i].images.fixed_width_still.url;
+
+/*  				var image = $('<img>').attr({
+  					src: imageStillURL
+
+  				});
+*/
+				var image = $('<img class="giphy">').attr("src", imageStillURL);
+				image.attr("data-state", "still");
+				image.attr("data-animate", imageURL);
+				image.attr("data-still", imageStillURL);
+				var pRating = $('<p>').text( "Rating: " + rating);
+
+				subjectDiv.append(image);
+				subjectDiv.append(pRating);
+
+				$("#animals").prepend(subjectDiv);
+			}
+
+		});
+
+	}
+
+	function toggleAnimation() {
+		var state = $(this).attr('data-state');
+
+	    if (state === "still") {
+	        //var animate = $(this).data("animate");
+	        //console.log($(this).data("animate"));
+	        $(this).attr('src', $(this).attr('data-animate'));
+	        $(this).attr('data-state','animate');
+	    }
+	    else {
+	        //var still = $(this).data("still");
+	        $(this).attr('data-state','still')
+	        $(this).attr('src', $(this).attr('data-still'));
+	    }
+	} 
+
+
+
+
+	$(document).on('click', '.animal', getAPI);
+	$(document).on('click', '.giphy', toggleAnimation);
 	renderButtons();
  </script>
 
