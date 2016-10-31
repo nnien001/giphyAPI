@@ -35,7 +35,7 @@
 		var apiKey = 'dc6zaTOxFJmzC'; //public key. get your own.
 		console.log(topicCall);
 
-		var searchQueryURL = "http://api.giphy.com/v1/gifs/search?q="+topicCall+"&limit="+limit+"&api_key=" + apiKey;
+		var searchQueryURL = "https://api.giphy.com/v1/gifs/search?q="+topicCall+"&limit="+limit+"&api_key=" + apiKey;
 
 		// Creates AJAX call for the specific movie being 
 		$.ajax({url: searchQueryURL, method: 'GET'}).done(function(response) {
