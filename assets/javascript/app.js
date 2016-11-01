@@ -11,18 +11,15 @@
 
 	function renderButtons(){ 
 
-		// Deletes the movies prior to adding new movies (this is necessary otherwise you will have repeat buttons)
 		$('#topicButtons').empty();
 
-		// Loops through the array of movies
 		for (var i = 0; i < topicArray.length; i++){
 
-			// Note the jQUery syntax here... 
-		    var a = $('<button>') // This code $('<button>') is all jQuery needs to create the beginning and end tag. (<button></button>)
-		    a.addClass('topic'); // Added a class 
-		    a.attr('data-name', topicArray[i]); // Added a data-attribute
-		    a.text(topicArray[i]); // Provided the initial button text
-		    $('#topicButtons').append(a); // Added the button to the HTML
+		    var a = $('<button>') 
+		    a.addClass('topic'); 
+		    a.attr('data-name', topicArray[i]); 
+		    a.text(topicArray[i]);
+		    $('#topicButtons').append(a); 
 		}
 
 	}
@@ -31,13 +28,13 @@
 
 		var topicCall = $(this).attr('data-name');
 		var limit = 10; //controls how many images get returned
-		var rating = ""; //rating limiter
-		var apiKey = 'dc6zaTOxFJmzC'; //public key. get your own.
+		var rating = "y"; //rating limiter. Rating for public key is SFW
+		var apiKey = 'dc6zaTOxFJmzC'; //public key. seems to work for this assignment.
 		console.log(topicCall);
 
-		var searchQueryURL = "https://api.giphy.com/v1/gifs/search?q="+topicCall+"&limit="+limit+"&api_key=" + apiKey;
+		var searchQueryURL = "https://api.giphy.com/v1/gifs/search?q="+topicCall+"&limit="+limit+"&rating=" + rating + "&api_key=" + apiKey;
 
-		// Creates AJAX call for the specific movie being 
+		// Creates AJAX call 
 		$.ajax({url: searchQueryURL, method: 'GET'}).done(function(response) {
 
 			console.log(response);
